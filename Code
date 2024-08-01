@@ -1,0 +1,273 @@
+class hotel:
+    r_name='behrouz'
+    r_address='hyd'
+    cust_details={}
+    cart_details={}
+    def __init__(self,name,phone_no,gender,email,password,pin):
+        self.name=name
+        self.phone=phone_no
+        self.gender=gender
+        self.email=email
+        self.password=password
+        self.pin=pin
+        self.concat_cust_details(self.name,self)
+
+    @classmethod
+    def concat_cust_details(cls,name,self):
+        cls.cust_details[name]=self       
+
+    @classmethod
+    def login(cls):
+        name=input('enter ur name')
+        password=int(input('enter ur pswd'))
+        if name in cls.cust_details and password==cls.cust_details[name].password:
+            print("login successfull")
+            cls.main_menu(name)
+        else:
+            print("incorrect pwsd")
+
+
+    @classmethod
+    def main_menu(cls,name):
+        n=int(input('choose 1.Veg\n 2.Non_veg\n 3.Desserts\n 4.Cooldrinks \n5.check order_details'))
+        match n:
+            case 1:
+                cls.veg(name)
+            case 2:
+                cls.non_veg(name)
+            case 3:
+                cls.desserts(name)
+            case 4:
+                cls.cooldrinks(name)
+            case 5:
+                cls.order_details(name)
+            case _:
+                return
+        return
+    
+    @classmethod
+    def veg(cls,name):
+        n=int(input('choose 1.Veg starters\n 2.main_course\n 3.back to main menu 4.exit'))
+        match n:
+            case 1:
+                print("SNO Dish Price")
+                print("________________")
+                print('1.paneerTikka: 230')
+                print('2.manchuriya - price : 120')
+                print('3.curry - price : 150')
+                print('4.mushroom - price : 250')
+                cls.veg_starters(name)
+            case 2:
+                print('1.Veg Biryani - price : 150')
+                print('2.paneerBiryani - price : 200')
+                print('3.VegThali - price : 180')
+                print('4.chapati with paneercurry - price : 200')
+                cls.main_course(name)
+            case 3:
+                cls.main_menu(name)
+            case _:
+                return
+        # cls.veg(name)
+    
+    @classmethod
+    def veg_starters(cls,name):
+        m=int(input('choose'))
+        match m:
+            case 1:
+                q=int(input("enter quantity"))
+                cls.add_cart(name,'paneertikka',q)
+            case 2:
+                q=int(input("enter quantity"))
+                cls.add_cart(name,'manchuriya',q)
+            case 3:
+                q=int(input("enter quantity"))
+                cls.add_cart(name,'curry',q)
+            case 4:
+                q=int(input("enter quantity"))
+                cls.add_cart(name,'mushroom',q)
+
+            case _:
+                return
+            
+    @classmethod
+    def add_cart(cls,self,dish='',q=1):
+        d={'paneertikka': 230,'manchuriya': 120,'curry': 150,'mushroom': 250,'Veg Biryani': 150,'paneerBiryani': 200,'VegThali': 180,'chapati with paneercurry': 200,'chickenTikka': 230,'Fishfry': 320,'chicken65': 250,'chilli chicken': 250,'chicken Biryani': 350,'muttonBiryani': 200,'chickenmandi': 380,'chapati with butterchicken': 300,'ice cream':100,'sweets':120,'gulabjam':50,'fruitsalad':100,'coco cola':50,'sprite':50,'thumpsup':50,'mango juice':50}
+        
+        cls.cart(self,{'dish':dish,'quantity':q,'price':d[dish]*q})
+        
+    @classmethod
+    def cart(cls,self,items):
+        if self not in cls.cart:
+            cls.cart_details[self]=[items]
+        else:
+            cls.cart_details[self]+=[items]
+
+
+    @classmethod
+    def order_details(cls,name):
+        t_price=0
+        for i in cls.cart_details[name]:
+            print(i['dish'],i['quantity',i['price']])
+            t_price+=i['price']
+        print("total amount",t_price)
+        res=cls.pay(name)
+        if res=='success':
+            print("order placed")
+            # if name not in cls.cart:
+            #     cls.order_history[name]=cls.cart
+            # else:
+            #     cls.order_history[name]+=cls.cart
+
+
+
+
+    @classmethod
+    def pay(cls,name):
+        password=int(input("enter"))
+        if password==cls.cust_details[name].password:
+            return "success"
+        else:
+            print("please enter correct password")
+
+
+
+
+
+
+
+
+            
+    @classmethod
+    def main_course(cls,name):
+        mc=int(input('choose'))
+        match mc:
+            case 1:
+                q=int(input("enter quantity"))
+                cls.add_cart(name,'Veg Biryani',q)
+            case 2:
+                q=int(input("enter quantity"))
+                cls.add_cart(name,'paneer Biryani',q)
+            case 3:
+                q=int(input("enter quantity"))
+                cls.add_cart(name,'VegThali',q)
+
+            case 4:
+                q=int(input("enter quantity"))
+                cls.add_cart(name,'chapati with paneercurry',q)
+
+            case _:
+                return
+            
+    @classmethod
+    def non_veg(cls,name):
+        n=int(input('choose 1.NonVeg starters\n 2.main_course\n 3.exit'))
+        match n:
+            case 1:
+                print('1.chickenTikka - price : 230')
+                print('2.Fishfry - price : 320')
+                print('3.chicken65 - price : 250')
+                print('4.chilli chicken - price : 250')
+                cls.nonveg_starters(name)
+            case 2:
+                print('1.chicken Biryani - price : 350')
+                print('2.muttonBiryani - price : 200')
+                print('3.chickenmandi - price : 380')
+                print('4.chapati with butterchicken - price : 300')
+                cls.nonveg_main_course(name)
+            case _:
+                return
+        cls.non_veg(name)
+    
+    @classmethod
+    def nonveg_starters(cls,name):
+        m=int(input('choose'))
+        match m:
+            case 1:
+                q=int(input("enter quantity"))
+                cls.add_cart(name,'chickenTikka',q)
+            case 2:
+                q=int(input("enter quantity"))
+                cls.add_cart(name,'Fishfry',q)
+            case 3:
+                q=int(input("enter quantity"))
+                cls.add_cart(name,'chicken65',q)
+            case 4:
+                q=int(input("enter quantity"))
+                cls.add_cart(name,'chilli chicken',q)
+            case _:
+                return       
+    @classmethod
+    def nonveg_main_course(cls,name):
+        mc=int(input('choose'))
+        match mc:
+            case 1:
+                q=int(input("enter quantity"))
+                cls.add_cart(name,'chicken Biryani',q)
+            case 2:
+                q=int(input("enter quantity"))
+                cls.add_cart(name,'muttonBiryani',q)
+            case 3:
+                q=int(input("enter quantity"))
+                cls.add_cart(name,'chickenmandi',q)
+            case 4:
+                q=int(input("enter quantity"))
+                cls.add_cart(name,'chapati with butterchicken',q)
+            case _:
+                return
+
+    @classmethod
+    def desserts(cls,name):
+        n=int(input('choose 1.ice cream - price:100 2.sweets -price:120 3.gulabjam - price:50 4.fruitsalad - price:100'))
+        match n:
+            case 1:
+                q=int(input("enter the quantity"))
+                cls.add_cart(name,'ice cream',q)
+
+            case 2:
+                q=int(input("enter the quantity"))
+                cls.add_cart(name,'sweets',q)
+            case 3:
+                q=int(input("enter the quantity"))
+                cls.add_cart(name,'gulabjam',q)
+            case 4:
+                q=int(input("enter the quantity"))
+                cls.add_cart(name,'fruitsalad',q)
+            case _:
+                return
+        # return cls.desserts(name)
+    
+    @classmethod
+    def cooldrinks(cls,name):
+        d=int(input('choose 1.coco cola - price:50 2.thumpsup - price:50 3.sprite - price:50 4.mango juice - price:50'))
+        match d:
+            case 1:
+                q=int(input("enter the quantity"))
+                cls.add_cart(name,'coco cola',q)
+            case 2:
+                q=int(input("enter the quantity"))
+                cls.add_cart(name,'thumpsup',q)
+            case 3:
+                q=int(input("enter the quantity"))
+                cls.add_cart(name,'sprite',q)
+            case 4:
+                q=int(input("enter the quantity"))
+                cls.add_cart(name,'mango juice',q)
+            case _:
+                return
+        # return cls.cooldrinks(name)
+
+
+
+
+    
+
+
+
+akki=hotel('akki',6309797400,'F','akki@gmail.com',101,6309)
+kavya=hotel('kavya',6309797401,'F','kavya@gmail.com',102,7400)
+print(akki.__dict__)
+print(kavya.__dict__)
+# hotel.cust_details
+hotel.login()
+# hotel.main_menu()
+# hotel.order_history
